@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Цветотип — 4 Сезона</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #E8B4B8;
+    --blush: #F5D6D8;
+    --cream: #FDF6F0;
+    --sage: #B5C4B1;
+    --dusty: #C9A9A6;
+    --warm: #D4A96A;
+    --cool: #8BA7C7;
+    --text: #3D2B2B;
+    --muted: #7A5C5C;
+    --light: #FAF0ED;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Decorative bg */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #F5D6D820 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -150px; left: -150px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #B5C4B115 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 64px 0 48px;
+  }
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--dusty);
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(42px, 8vw, 68px);
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--rose);
+  }
+  .subtitle {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* PROGRESS */
+  .progress-bar {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin: 32px 0 48px;
+  }
+  .progress-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #E0CECE;
+    transition: all 0.4s ease;
+  }
+  .progress-dot.active { background: var(--rose); transform: scale(1.4); }
+  .progress-dot.done { background: var(--dusty); }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px 48px;
+    box-shadow: 0 4px 40px rgba(180,120,120,0.08);
+    border: 1px solid rgba(232,180,184,0.2);
+    animation: slideIn 0.5s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .q-number {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rose);
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .q-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  /* OPTION GRID */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    border: 1.5px solid #EDE0E0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+    font-family: 'Jost', sans-serif;
+  }
+  .option-btn:hover {
+    border-color: var(--rose);
+    background: #FDF5F5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232,180,184,0.15);
+  }
+  .option-btn.selected {
+    border-color: var(--rose);
+    background: linear-gradient(135deg, #FDF5F5, #FBF0F2);
+    box-shadow: 0 4px 16px rgba(232,180,184,0.25);
+  }
+  .color-swatch {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .option-label {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .option-sublabel {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* FULL WIDTH OPTION */
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .option-btn.full {
+    width: 100%;
+  }
+
+  /* NAV */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+  }
+  .btn-ghost {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 0;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--text); }
+  .btn-next {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: white;
+    background: var(--rose);
+    border: none;
+    border-radius: 100px;
+    padding: 14px 36px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .btn-next.ready {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .btn-next.ready:hover {
+    background: var(--dusty);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(232,180,184,0.35);
+  }
+
+  /* RESULT */
+  .result-section { display: none; animation: slideIn 0.6s ease; }
+  .result-section.visible { display: block; }
+
+  .season-badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+  .result-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 10vw, 80px);
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .result-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+  .result-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 40px;
+  }
+
+  /* PALETTE */
+  .palette-section { margin-bottom: 40px; }
+  .palette-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  .palette-item {
+    aspect-ratio: 1;
+    border-radius: 14px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  }
+  .palette-item:hover { transform: scale(1.08) translateY(-3px); }
+  .palette-item .color-name {
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  .palette-item:hover .color-name { opacity: 1; }
+
+  /* ACCENT vs NEUTRAL GROUPS */
+  .palette-groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .palette-group {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    border: 1px solid rgba(232,180,184,0.2);
+  }
+  .group-title {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-weight: 400;
+  }
+  .group-swatches {
+    display: flex;
+    gap: 8px;
+  }
+  .group-swatch {
+    flex: 1;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  /* TRAITS */
+  .traits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .trait-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 22px;
+    border: 1px solid rgba(232,180,184,0.2);
+  }
+  .trait-icon {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .trait-title {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 400;
+  }
+  .trait-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text);
+  }
+
+  /* RESTART */
+  .btn-restart {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: 1.5px solid #EDE0E0;
+    border-radius: 100px;
+    padding: 12px 32px;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-top: 8px;
+  }
+  .btn-restart:hover { border-color: var(--rose); color: var(--text); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,180,184,0.3), transparent);
+    margin: 32px 0;
+  }
+
+  /* SCREENS */
+  #intro-screen { display: block; }
+  #quiz-screen { display: none; }
+  #result-screen { display: none; }
+
+  /* INTRO SCREEN */
+  .intro-hero {
+    text-align: center;
+    padding: 56px 0 40px;
+  }
+  .intro-chips {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .intro-chips span {
+    width: 12px; height: 36px;
+    border-radius: 100px;
+    animation: chipFloat 4s ease-in-out infinite;
+  }
+  .intro-chips span:nth-child(2) { animation-delay: .5s; height: 28px; margin-top: 8px; }
+  .intro-chips span:nth-child(3) { animation-delay: 1s; }
+  .intro-chips span:nth-child(4) { animation-delay: 1.5s; height: 28px; margin-top: 8px; }
+  @keyframes chipFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  .intro-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 32px 0;
+  }
+  .intro-info-card {
+    background: white;
+    border-radius: 18px;
+    padding: 24px 22px;
+    border: 1px solid rgba(232,180,184,0.2);
+    text-align: left;
+    box-shadow: 0 2px 16px rgba(180,120,120,0.06);
+  }
+  .ic-icon { font-size: 22px; margin-bottom: 12px; }
+  .ic-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 400; color: var(--text); margin-bottom: 6px;
+  }
+  .ic-text { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.65; }
+  .intro-seasons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 32px 0;
+  }
+  .intro-season {
+    border-radius: 16px; padding: 18px 14px; text-align: center;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .is-dot {
+    width: 36px; height: 36px; border-radius: 50%;
+    margin: 0 auto 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  }
+  .is-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 400; margin-bottom: 4px; }
+  .is-desc { font-size: 11px; font-weight: 300; line-height: 1.5; }
+  .intro-steps {
+    background: white; border-radius: 20px; padding: 28px 32px;
+    border: 1px solid rgba(232,180,184,0.2); margin: 32px 0;
+    box-shadow: 0 2px 16px rgba(180,120,120,0.06);
+  }
+  .intro-steps-title {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--dusty); margin-bottom: 20px; font-weight: 400;
+  }
+  .intro-step-row {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 14px 0; border-bottom: 1px solid rgba(232,180,184,0.15);
+  }
+  .intro-step-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .intro-step-row:first-of-type { padding-top: 0; }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 28px;
+    font-weight: 300; color: var(--rose); line-height: 1; min-width: 32px; margin-top: -2px;
+  }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .step-text { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.6; }
+  .intro-cta { text-align: center; padding: 24px 0 8px; }
+  .btn-start {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 400;
+    letter-spacing: 2px; text-transform: uppercase; color: white;
+    background: linear-gradient(135deg, var(--rose), var(--dusty));
+    border: none; border-radius: 100px; padding: 18px 48px; cursor: pointer;
+    transition: all 0.3s ease; box-shadow: 0 8px 28px rgba(232,180,184,0.4);
+  }
+  .btn-start:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(232,180,184,0.5); }
+  .intro-note { font-size: 12px; font-weight: 300; color: var(--dusty); margin-top: 14px; letter-spacing: 0.5px; }
+
+  /* ABOUT SCREEN */
+  .about-section { margin: 36px 0; }
+  .about-section-label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--dusty); margin-bottom: 18px; font-weight: 400;
+  }
+  .about-text-card {
+    background: white; border-radius: 18px; padding: 28px 30px;
+    border: 1px solid rgba(232,180,184,0.2);
+    box-shadow: 0 2px 16px rgba(180,120,120,0.06);
+  }
+  .about-text-card p { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.8; margin-bottom: 14px; }
+  .about-text-card p:last-child { margin-bottom: 0; }
+  .about-text-card strong { font-weight: 500; color: var(--text); }
+  .about-text-card em { font-style: italic; color: var(--dusty); }
+  .axes-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .axis-card {
+    background: white; border-radius: 16px; padding: 22px 18px;
+    border: 1px solid rgba(232,180,184,0.2);
+    box-shadow: 0 2px 12px rgba(180,120,120,0.05);
+  }
+  .axis-icon { font-size: 20px; margin-bottom: 10px; }
+  .axis-name { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 400; color: var(--text); margin-bottom: 8px; }
+  .axis-desc { font-size: 12px; font-weight: 300; color: var(--muted); line-height: 1.65; margin-bottom: 14px; }
+  .axis-bar { display: flex; gap: 4px; }
+  .axis-bar span { flex: 1; height: 6px; border-radius: 100px; }
+  .seasons-about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .season-about-card {
+    border-radius: 18px; padding: 24px 22px;
+    border: 1px solid rgba(232,180,184,0.2);
+  }
+  .sac-chips { display: flex; gap: 5px; margin-bottom: 14px; }
+  .sac-chips span { width: 22px; height: 22px; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .sac-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; margin-bottom: 4px; }
+  .sac-tag { font-size: 11px; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; font-weight: 300; }
+  .sac-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.65; }
+
+  @media (max-width: 560px) {
+    .question-card { padding: 28px 24px; }
+    .options-grid { grid-template-columns: 1fr; }
+    .palette-grid { grid-template-columns: repeat(4, 1fr); }
+    .palette-groups { grid-template-columns: 1fr; }
+    .traits-grid { grid-template-columns: 1fr; }
+    .intro-info-grid { grid-template-columns: 1fr; }
+    .intro-seasons { grid-template-columns: repeat(2, 1fr); }
+    .intro-steps { padding: 22px 20px; }
+    .axes-grid { grid-template-columns: 1fr; }
+    .seasons-about-grid { grid-template-columns: 1fr; }
+  }
+
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(253,246,240,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232,180,184,0.25);
+  }
+  .site-nav__inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .site-nav__brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.3px;
+  }
+  .site-nav__chips { display: flex; gap: 3px; }
+  .site-nav__chips span { display: block; width: 8px; height: 16px; border-radius: 2px; }
+  .site-nav__links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .site-nav__links a {
+    font-size: 13px; font-weight: 400; color: var(--muted);
+    text-decoration: none; letter-spacing: 0.3px; transition: color 0.2s;
+  }
+  .site-nav__links a:hover, .site-nav__links a[aria-current=page] { color: var(--text); }
+
+  .site-footer { border-top: 1px solid rgba(232,180,184,0.25); padding: 32px 24px; }
+  .site-footer__inner {
+    max-width: 780px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; gap: 8px 32px;
+    justify-content: space-between; align-items: center;
+  }
+  .site-footer__brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; font-weight: 400; color: var(--muted); letter-spacing: 0.3px;
+  }
+  .site-footer__meta { font-size: 12px; font-weight: 300; color: #C4A8A8; letter-spacing: 0.2px; text-align: right; }
+  @media (max-width: 500px) {
+    .site-nav__links { gap: 16px; }
+    .site-footer__meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Навигация">
+  <div class="site-nav__inner">
+    <a href="./index.html" class="site-nav__brand">
+      <span class="site-nav__chips" aria-hidden="true">
+        <span style="background:#FF8A65"></span>
+        <span style="background:#88A9C3"></span>
+        <span style="background:#B8651B"></span>
+        <span style="background:#1F3A8A"></span>
+      </span>
+      4 сезона
+    </a>
+    <ul class="site-nav__links" role="list">
+      <li><a href="#" onclick="showScreen('intro');return false;" id="nav-test" aria-current="page">Тест</a></li>
+      <li><a href="#" onclick="showScreen('about');return false;" id="nav-about">О методике</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header>
+    <p class="eyebrow">Цветовой анализ</p>
+    <h1>Ваш <em>сезон</em><br>красоты</h1>
+    <p class="subtitle">Ответьте на несколько вопросов, и мы определим ваш цветотип по методике «4 сезона»</p>
+  </header>
+
+  <!-- INTRO -->
+  <div id="intro-screen">
+
+    <div class="intro-hero">
+      <p class="eyebrow">Методика «4 сезона» · Carole Jackson</p>
+      <div class="intro-chips" aria-hidden="true">
+        <span style="background:#FF8A65"></span>
+        <span style="background:#88A9C3"></span>
+        <span style="background:#B8651B"></span>
+        <span style="background:#1F3A8A"></span>
+      </div>
+      <h1>Узнайте свой <em>цветотип</em></h1>
+      <p class="subtitle">Короткий тест из 7 вопросов определит ваш сезон и подберёт индивидуальную палитру цветов для одежды и макияжа</p>
+    </div>
+
+    <div class="intro-info-grid">
+      <div class="intro-info-card">
+        <div class="ic-icon">🎨</div>
+        <div class="ic-title">Что такое цветотип?</div>
+        <div class="ic-text">Цветотип — это сочетание природных оттенков вашей кожи, волос и глаз. Зная его, вы подберёте цвета, которые подчёркивают красоту, а не приглушают её.</div>
+      </div>
+      <div class="intro-info-card">
+        <div class="ic-icon">🌿</div>
+        <div class="ic-title">Откуда метод?</div>
+        <div class="ic-text">Систему «4 сезона» разработала американский стилист Кэрол Джексон в 1980 году. Книга «Color Me Beautiful» стала мировым бестселлером и изменила подход к стилю.</div>
+      </div>
+      <div class="intro-info-card">
+        <div class="ic-icon">⏱</div>
+        <div class="ic-title">Сколько времени?</div>
+        <div class="ic-text">Тест занимает около 3 минут. Никакой регистрации — результат сохраняется прямо в браузере, данные никуда не отправляются.</div>
+      </div>
+      <div class="intro-info-card">
+        <div class="ic-icon">✨</div>
+        <div class="ic-title">Что вы получите?</div>
+        <div class="ic-text">Ваш сезон, палитру из цветов для базового гардероба, акцентов и нейтральных оттенков, а также характеристику вашего колорита.</div>
+      </div>
+    </div>
+
+    <div class="intro-seasons">
+      <div class="intro-season" style="background:#FFF8F0;">
+        <div class="is-dot" style="background:#FF8A65"></div>
+        <div class="is-name" style="color:#7A4020">Весна</div>
+        <div class="is-desc" style="color:#A07050">Тёплая · Светлая · Ясная</div>
+      </div>
+      <div class="intro-season" style="background:#EEF3F7;">
+        <div class="is-dot" style="background:#88A9C3"></div>
+        <div class="is-name" style="color:#2A4060">Лето</div>
+        <div class="is-desc" style="color:#6080A0">Холодная · Светлая · Мягкая</div>
+      </div>
+      <div class="intro-season" style="background:#F8ECD8;">
+        <div class="is-dot" style="background:#B8651B"></div>
+        <div class="is-name" style="color:#6A3010">Осень</div>
+        <div class="is-desc" style="color:#8A5030">Тёплая · Тёмная · Насыщенная</div>
+      </div>
+      <div class="intro-season" style="background:#EBEEF3;">
+        <div class="is-dot" style="background:#1F3A8A"></div>
+        <div class="is-name" style="color:#0D1929">Зима</div>
+        <div class="is-desc" style="color:#3A5080">Холодная · Тёмная · Чистая</div>
+      </div>
+    </div>
+
+    <div class="intro-steps">
+      <p class="intro-steps-title">Как проходит тест</p>
+      <div class="intro-step-row">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <div class="step-title">Отвечайте честно</div>
+          <div class="step-text">Выбирайте то, что соответствует вашему натуральному цвету — без учёта окраски или линз. Если не уверены, выбирайте ближайший вариант.</div>
+        </div>
+      </div>
+      <div class="intro-step-row">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <div class="step-title">Можно вернуться</div>
+          <div class="step-text">На каждом шаге есть кнопка «Назад» — вы можете изменить ответ в любой момент до получения результата.</div>
+        </div>
+      </div>
+      <div class="intro-step-row">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <div class="step-title">Получите палитру</div>
+          <div class="step-text">После последнего вопроса алгоритм взвесит ответы по 7 признакам и покажет ваш сезон с персональной цветовой палитрой.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-cta">
+      <button class="btn-start" onclick="startQuiz()">
+        Начать тест
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <p class="intro-note">7 вопросов · около 3 минут</p>
+    </div>
+
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz-screen">
+    <div class="progress-bar" id="progress-bar"></div>
+    <div class="question-card" id="question-card">
+      <div class="q-number" id="q-number"></div>
+      <div class="q-text" id="q-text"></div>
+      <div id="options-container"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-ghost" id="btn-back" onclick="goBack()">← Назад</button>
+      <button class="btn-next" id="btn-next" onclick="goNext()">Далее</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result-screen">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <div class="season-badge" id="result-badge"></div>
+      <div class="result-title" id="result-title"></div>
+      <div class="result-subtitle" id="result-subtitle"></div>
+      <p class="result-desc" id="result-desc"></p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="palette-section">
+      <p class="palette-label">Ваша палитра — основные цвета</p>
+      <div class="palette-grid" id="main-palette"></div>
+    </div>
+
+    <div class="palette-groups" id="palette-groups"></div>
+
+    <div class="divider"></div>
+
+    <div class="traits-grid" id="traits-grid"></div>
+
+    <div style="text-align:center;">
+      <button class="btn-restart" onclick="restart()">Пройти заново</button>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div id="about-screen" style="display:none;">
+
+    <div class="intro-hero" style="padding-bottom:24px;">
+      <p class="eyebrow">О методике</p>
+      <h1>«4 сезона» —<br><em>система Кэрол Джексон</em></h1>
+      <p class="subtitle">Метод цветового анализа внешности, помогающий подобрать гардероб, макияж и аксессуары в гармонии с природным колоритом</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- История -->
+    <div class="about-section">
+      <p class="about-section-label">История метода</p>
+      <div class="about-text-card">
+        <p>Концепция сезонного цветового анализа сформировалась в 1940-х годах в работах швейцарского художника и педагога Иоганнеса Иттена — преподавателя знаменитой школы Баухаус. Иттен предположил, что природный колорит человека гармонирует с определённым временем года.</p>
+        <p>В 1980 году американский стилист <strong>Кэрол Джексон</strong> опубликовала книгу <em>«Color Me Beautiful»</em>, которая принесла методу мировую известность. Джексон описала четыре сезонных типа и разработала практические тесты для их определения.</p>
+        <p>Сегодня метод дополнен расширениями (12-сезонный анализ, Sci·ART), но базовое деление на 4 сезона остаётся самым доступным инструментом для работы со стилем.</p>
+      </div>
+    </div>
+
+    <!-- 3 оси -->
+    <div class="about-section">
+      <p class="about-section-label">Три оси колорита</p>
+      <div class="axes-grid">
+        <div class="axis-card">
+          <div class="axis-icon">🌡️</div>
+          <div class="axis-name">Температура</div>
+          <div class="axis-desc">Тёплый (золотистый подтон) ↔ холодный (голубоватый). Определяет, идёт ли вам золото или серебро.</div>
+          <div class="axis-bar">
+            <span style="background:#D4A030">Тёплый</span>
+            <span style="background:#8BA7C7">Холодный</span>
+          </div>
+        </div>
+        <div class="axis-card">
+          <div class="axis-icon">☀️</div>
+          <div class="axis-name">Светлота</div>
+          <div class="axis-desc">Светлый ↔ тёмный. Зависит от глубины волос, глаз и кожи — чем темнее черты, тем темнее ваш колорит.</div>
+          <div class="axis-bar">
+            <span style="background:#F5D5B0">Светлый</span>
+            <span style="background:#3D2010">Тёмный</span>
+          </div>
+        </div>
+        <div class="axis-card">
+          <div class="axis-icon">✨</div>
+          <div class="axis-name">Чистота</div>
+          <div class="axis-desc">Ясный/яркий ↔ мягкий/приглушённый. Идут ли вам насыщенные чистые цвета или пыльные дымчатые.</div>
+          <div class="axis-bar">
+            <span style="background:#E82050">Яркий</span>
+            <span style="background:#C9A9A6">Мягкий</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 сезона -->
+    <div class="about-section">
+      <p class="about-section-label">4 сезона</p>
+      <div class="seasons-about-grid">
+        <div class="season-about-card" style="background:#FFF8F0; border-color:rgba(255,138,101,0.2);">
+          <div class="sac-chips">
+            <span style="background:#FF8A65"></span>
+            <span style="background:#FFD166"></span>
+            <span style="background:#6AB04A"></span>
+            <span style="background:#FFAB91"></span>
+            <span style="background:#FFE0A3"></span>
+          </div>
+          <div class="sac-name" style="color:#7A4020">Весна</div>
+          <div class="sac-tag">Тёплая · Светлая · Ясная</div>
+          <div class="sac-desc">Свежий, лёгкий, золотистый колорит. Кожа с персиковым или золотистым подтоном, часто веснушки. Волосы пшеничные, медовые или светло-рыжие. Идут коралл, персик, тёплый зелёный, бежево-золотой.</div>
+        </div>
+        <div class="season-about-card" style="background:#EEF3F7; border-color:rgba(136,169,195,0.2);">
+          <div class="sac-chips">
+            <span style="background:#88A9C3"></span>
+            <span style="background:#D8B4D4"></span>
+            <span style="background:#B0CECE"></span>
+            <span style="background:#F4C2C2"></span>
+            <span style="background:#9DB8A8"></span>
+          </div>
+          <div class="sac-name" style="color:#2A4060">Лето</div>
+          <div class="sac-tag">Холодная · Светлая · Мягкая</div>
+          <div class="sac-desc">Деликатный, дымчатый колорит. Кожа розоватая или нейтральная, без золотого. Волосы пепельные, пшеничные или русые. Идут лавандовый, пудровый розовый, серо-голубой, мягкий малиновый.</div>
+        </div>
+        <div class="season-about-card" style="background:#F8ECD8; border-color:rgba(184,101,27,0.2);">
+          <div class="sac-chips">
+            <span style="background:#B8651B"></span>
+            <span style="background:#D4A24C"></span>
+            <span style="background:#5D6B2A"></span>
+            <span style="background:#7A5E3D"></span>
+            <span style="background:#C8823C"></span>
+          </div>
+          <div class="sac-name" style="color:#6A3010">Осень</div>
+          <div class="sac-tag">Тёплая · Тёмная · Насыщенная</div>
+          <div class="sac-desc">Глубокий, земной, богатый колорит. Кожа с золотисто-оливковым подтоном. Волосы каштановые, рыжие или тёмно-русые. Идут терракота, горчица, болотный, шоколад, медь.</div>
+        </div>
+        <div class="season-about-card" style="background:#EBEEF3; border-color:rgba(31,58,138,0.15);">
+          <div class="sac-chips">
+            <span style="background:#1F3A8A"></span>
+            <span style="background:#C41E3A"></span>
+            <span style="background:#0F766E"></span>
+            <span style="background:#4A4A4A"></span>
+            <span style="background:#6A4E8C"></span>
+          </div>
+          <div class="sac-name" style="color:#0D1929">Зима</div>
+          <div class="sac-tag">Холодная · Тёмная · Чистая</div>
+          <div class="sac-desc">Контрастный, графичный, драматичный колорит. Кожа фарфоровая или смуглая с холодным подтоном. Волосы тёмно-каштановые или чёрные. Идут чистый белый, чёрный, ледяной голубой, малина, изумруд.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="intro-cta">
+      <button class="btn-start" onclick="showScreen('intro')">
+        Пройти тест
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+
+</div>
+
+<script>
+const questions = [
+  {
+    id: 'skin',
+    text: 'Какой оттенок вашей кожи?',
+    type: 'color',
+    options: [
+      { label: 'Фарфоровая', sub: 'очень светлая, без загара', swatch: '#FDE8E0', value: 'cool_light' },
+      { label: 'Бежевая', sub: 'тёплый персиковый оттенок', swatch: '#F5D5B0', value: 'warm_light' },
+      { label: 'Золотистая', sub: 'тёплый, загорает легко', swatch: '#D4A96A', value: 'warm_deep' },
+      { label: 'Оливковая', sub: 'нейтральный или холодный', swatch: '#B5A882', value: 'cool_deep' },
+    ]
+  },
+  {
+    id: 'eyes',
+    text: 'Какой цвет ваших глаз?',
+    type: 'color',
+    options: [
+      { label: 'Голубые / серые', sub: 'холодный, чистый оттенок', swatch: '#8BA7C7', value: 'cool' },
+      { label: 'Зелёные / серо-зелёные', sub: 'мягкий, дымчатый', swatch: '#7B9E87', value: 'cool_warm' },
+      { label: 'Карие / янтарные', sub: 'тёплый, золотистый', swatch: '#8B5E3C', value: 'warm' },
+      { label: 'Тёмно-карие / чёрные', sub: 'глубокий, насыщенный', swatch: '#3D2010', value: 'deep' },
+    ]
+  },
+  {
+    id: 'hair',
+    text: 'Какой натуральный цвет ваших волос?',
+    type: 'color',
+    options: [
+      { label: 'Платиновый / пепельный', sub: 'холодный блонд, серебристый', swatch: '#D8D0C8', value: 'cool' },
+      { label: 'Золотистый / рыжий', sub: 'тёплый блонд, рыжина', swatch: '#C8823C', value: 'warm' },
+      { label: 'Тёмно-русый / каштановый', sub: 'шатен с красным отливом', swatch: '#6B3A2A', value: 'warm_deep' },
+      { label: 'Тёмно-коричневый / чёрный', sub: 'глубокий, насыщенный цвет', swatch: '#1C1008', value: 'deep' },
+    ]
+  },
+  {
+    id: 'contrast',
+    text: 'Как соотносятся цвет кожи и волос?',
+    type: 'list',
+    options: [
+      { label: 'Очень контрастно', sub: 'светлая кожа + тёмные волосы или наоборот', swatch: null, value: 'high' },
+      { label: 'Средний контраст', sub: 'кожа и волосы схожего уровня насыщенности', swatch: null, value: 'mid' },
+      { label: 'Мягко, почти сливаются', sub: 'кожа и волосы одного тона', swatch: null, value: 'low' },
+    ]
+  },
+  {
+    id: 'warmth',
+    text: 'Какие оттенки вам идут больше всего, по вашему ощущению?',
+    type: 'list',
+    options: [
+      { label: 'Тёплые — персик, терракота, горчица, оливка', sub: 'золотистые, земляные', swatch: null, value: 'warm' },
+      { label: 'Холодные — лаванда, серо-синий, малина, айвори', sub: 'пудровые, холодные розы', swatch: null, value: 'cool' },
+      { label: 'Мягкие приглушённые — серо-розовый, топлёное молоко', sub: 'дымчатые, пастельные', swatch: null, value: 'muted' },
+      { label: 'Яркие, насыщенные — бордо, электрик, изумруд', sub: 'глубокие, контрастные', swatch: null, value: 'bright' },
+    ]
+  },
+  {
+    id: 'metal',
+    text: 'Какой металл вам больше идёт?',
+    type: 'list',
+    options: [
+      { label: 'Серебро / белое золото / платина', sub: '', swatch: null, value: 'cool' },
+      { label: 'Золото / розовое золото', sub: '', swatch: null, value: 'warm' },
+      { label: 'Оба подходят одинаково', sub: '', swatch: null, value: 'neutral' },
+    ]
+  },
+  {
+    id: 'sun',
+    text: 'Как ваша кожа реагирует на солнце?',
+    type: 'list',
+    options: [
+      { label: 'Быстро краснею, почти не загораю', sub: 'кожа чувствительная', swatch: null, value: 'cool' },
+      { label: 'Легко загораю, кожа золотистая', sub: 'тёплый загар', swatch: null, value: 'warm' },
+      { label: 'Загораю хорошо, тон тёмный', sub: 'глубокий пигмент', swatch: null, value: 'deep' },
+    ]
+  }
+];
+
+const seasons = {
+  spring: {
+    name: 'Весна',
+    subtitle: 'Тёплая & Светлая',
+    badge: '🌸 Весна',
+    badgeColor: '#FDE8D0',
+    badgeText: '#7A4020',
+    titleColor: '#D4905A',
+    desc: 'Вы — воплощение лёгкости и тепла. Ваши краски свежие, живые, золотистые. Цветы персика, коралл, абрикос и весенняя зелень создают вашу магию.',
+    palette: ['#F9C784','#F4A460','#E8896A','#D4905A','#E8C4A0','#F5D5B0','#C8D896','#7DAF6E','#F9E4B4','#B8D4A8','#FAAC7C','#E87860'],
+    groups: {
+      base: { title: 'Базовые', colors: ['#F5D5B0','#E8C4A0','#FAF0E6'] },
+      accent: { title: 'Акцентные', colors: ['#E8896A','#D4905A','#C8823C'] },
+      neutral: { title: 'Нейтральные', colors: ['#C8D896','#7DAF6E','#A8C890'] },
+    },
+    traits: [
+      { icon: '✨', title: 'Контраст', value: 'Низкий — средний' },
+      { icon: '🌡️', title: 'Температура', value: 'Тёплая' },
+      { icon: '💎', title: 'Металл', value: 'Золото' },
+      { icon: '🌿', title: 'Ключевой цвет', value: 'Персик, коралл' },
+    ]
+  },
+  summer: {
+    name: 'Лето',
+    subtitle: 'Холодная & Мягкая',
+    badge: '🌿 Лето',
+    badgeColor: '#E8F0F8',
+    badgeText: '#2A4A6A',
+    titleColor: '#7A9EC0',
+    desc: 'Вы — утончённость и романтика. Пудровые, дымчатые оттенки: серо-розовый, лавандовый, голубиный. Мягкость и грация — ваша природная эстетика.',
+    palette: ['#C5D5E8','#A8C0D8','#8BA7C7','#6B8FAF','#D4C0D4','#C0A8C8','#E0CED8','#B8A0B8','#D8E4F0','#C8D0E0','#A0B8D0','#BCC8D8'],
+    groups: {
+      base: { title: 'Базовые', colors: ['#E8EEF4','#D4DDE8','#C0CCDA'] },
+      accent: { title: 'Акцентные', colors: ['#8BA7C7','#6B8FAF','#A090B8'] },
+      neutral: { title: 'Нейтральные', colors: ['#D4C0D4','#C0A8C8','#B8A0B8'] },
+    },
+    traits: [
+      { icon: '✨', title: 'Контраст', value: 'Низкий' },
+      { icon: '🌡️', title: 'Температура', value: 'Холодная' },
+      { icon: '💎', title: 'Металл', value: 'Серебро' },
+      { icon: '🌿', title: 'Ключевой цвет', value: 'Пудрово-голубой' },
+    ]
+  },
+  autumn: {
+    name: 'Осень',
+    subtitle: 'Тёплая & Глубокая',
+    badge: '🍂 Осень',
+    badgeColor: '#F8ECD8',
+    badgeText: '#6A3010',
+    titleColor: '#B8602A',
+    desc: 'Вы — насыщенность и земная красота. Терракота, горчица, медь, тёмный шоколад — ваши краски богатые и глубокие, как осенний лес.',
+    palette: ['#C8823C','#B8602A','#A04020','#D4A030','#C49028','#8B6020','#C8A878','#B89060','#9E7048','#D0B898','#A87840','#7A5028'],
+    groups: {
+      base: { title: 'Базовые', colors: ['#D0B898','#C8A878','#B89060'] },
+      accent: { title: 'Акцентные', colors: ['#C8823C','#A04020','#D4A030'] },
+      neutral: { title: 'Нейтральные', colors: ['#8B6020','#7A5028','#6A4018'] },
+    },
+    traits: [
+      { icon: '✨', title: 'Контраст', value: 'Средний — высокий' },
+      { icon: '🌡️', title: 'Температура', value: 'Тёплая' },
+      { icon: '💎', title: 'Металл', value: 'Золото, медь' },
+      { icon: '🌿', title: 'Ключевой цвет', value: 'Терракота, горчица' },
+    ]
+  },
+  winter: {
+    name: 'Зима',
+    subtitle: 'Холодная & Яркая',
+    badge: '❄️ Зима',
+    badgeColor: '#E8ECF4',
+    badgeText: '#1A2844',
+    titleColor: '#3A5890',
+    desc: 'Вы — драматизм и элегантность. Контрастные, чистые, холодные оттенки: чёрный, белый, ледяной голубой, малина. Вам нужны насыщенные, чёткие цвета.',
+    palette: ['#2A3A5C','#1A2844','#4060A0','#6080C0','#C02050','#A01840','#E8E8F0','#C0C8D8','#8090B0','#304878','#D83060','#F0F0F8'],
+    groups: {
+      base: { title: 'Базовые', colors: ['#F0F0F8','#E8E8F0','#C0C8D8'] },
+      accent: { title: 'Акцентные', colors: ['#4060A0','#C02050','#2A3A5C'] },
+      neutral: { title: 'Нейтральные', colors: ['#8090B0','#304878','#1A2844'] },
+    },
+    traits: [
+      { icon: '✨', title: 'Контраст', value: 'Высокий' },
+      { icon: '🌡️', title: 'Температура', value: 'Холодная' },
+      { icon: '💎', title: 'Металл', value: 'Серебро, платина' },
+      { icon: '🌿', title: 'Ключевой цвет', value: 'Малина, ледяной голубой' },
+    ]
+  }
+};
+
+let current = 0;
+let answers = {};
+let selected = null;
+
+function buildProgress() {
+  const bar = document.getElementById('progress-bar');
+  bar.innerHTML = '';
+  for (let i = 0; i < questions.length; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot' + (i === current ? ' active' : i < current ? ' done' : '');
+    bar.appendChild(dot);
+  }
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  selected = answers[q.id] || null;
+
+  document.getElementById('q-number').textContent = 'Вопрос ' + (current + 1) + ' из ' + questions.length;
+  document.getElementById('q-text').textContent = q.text;
+
+  const container = document.getElementById('options-container');
+  container.innerHTML = '';
+
+  if (q.type === 'color') {
+    const grid = document.createElement('div');
+    grid.className = 'options-grid';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn' + (selected === opt.value ? ' selected' : '');
+      btn.innerHTML = `
+        <div class="color-swatch" style="background:${opt.swatch}"></div>
+        <div>
+          <div class="option-label">${opt.label}</div>
+          <div class="option-sublabel">${opt.sub}</div>
+        </div>`;
+      btn.onclick = () => selectOption(opt.value, btn, grid);
+      grid.appendChild(btn);
+    });
+    container.appendChild(grid);
+  } else {
+    const list = document.createElement('div');
+    list.className = 'options-list';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn full' + (selected === opt.value ? ' selected' : '');
+      btn.innerHTML = `
+        <div>
+          <div class="option-label">${opt.label}</div>
+          ${opt.sub ? '<div class="option-sublabel">' + opt.sub + '</div>' : ''}
+        </div>`;
+      btn.onclick = () => selectOption(opt.value, btn, list);
+      list.appendChild(btn);
+    });
+    container.appendChild(list);
+  }
+
+  updateNextBtn();
+  document.getElementById('btn-back').style.visibility = current === 0 ? 'hidden' : 'visible';
+  buildProgress();
+
+  const card = document.getElementById('question-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'slideIn 0.4s ease';
+}
+
+function selectOption(value, btn, container) {
+  container.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selected = value;
+  answers[questions[current].id] = value;
+  updateNextBtn();
+}
+
+function updateNextBtn() {
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next' + (selected ? ' ready' : '');
+}
+
+function showScreen(name) {
+  const screens = ['intro', 'quiz', 'result', 'about'];
+  screens.forEach(s => {
+    const el = document.getElementById(s + '-screen');
+    if (el) el.style.display = 'none';
+  });
+  // Update nav active state
+  document.querySelectorAll('.site-nav__links a').forEach(a => a.removeAttribute('aria-current'));
+  if (name === 'about') document.getElementById('nav-about') && document.getElementById('nav-about').setAttribute('aria-current','page');
+  else document.getElementById('nav-test') && document.getElementById('nav-test').setAttribute('aria-current','page');
+
+  if (name === 'quiz') {
+    document.getElementById('quiz-screen').style.display = 'block';
+    renderQuestion();
+  } else {
+    document.getElementById(name + '-screen').style.display = 'block';
+  }
+}
+
+function startQuiz() { showScreen('quiz'); }
+
+function goNext() {
+  if (!selected) return;
+  if (current < questions.length - 1) {
+    current++;
+    selected = answers[questions[current].id] || null;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function goBack() {
+  if (current > 0) {
+    current--;
+    selected = answers[questions[current].id] || null;
+    renderQuestion();
+  }
+}
+
+function calcSeason() {
+  let scores = { spring: 0, summer: 0, autumn: 0, winter: 0 };
+
+  const skin = answers.skin;
+  if (skin === 'cool_light') { scores.summer += 2; scores.winter += 1; }
+  if (skin === 'warm_light') { scores.spring += 2; scores.summer += 1; }
+  if (skin === 'warm_deep') { scores.autumn += 2; scores.spring += 1; }
+  if (skin === 'cool_deep') { scores.winter += 2; scores.autumn += 1; }
+
+  const eyes = answers.eyes;
+  if (eyes === 'cool') { scores.summer += 2; scores.winter += 1; }
+  if (eyes === 'cool_warm') { scores.summer += 2; scores.spring += 1; }
+  if (eyes === 'warm') { scores.spring += 1; scores.autumn += 2; }
+  if (eyes === 'deep') { scores.winter += 2; scores.autumn += 1; }
+
+  const hair = answers.hair;
+  if (hair === 'cool') { scores.summer += 2; scores.winter += 1; }
+  if (hair === 'warm') { scores.spring += 2; scores.autumn += 1; }
+  if (hair === 'warm_deep') { scores.autumn += 2; scores.spring += 1; }
+  if (hair === 'deep') { scores.winter += 2; scores.autumn += 1; }
+
+  const contrast = answers.contrast;
+  if (contrast === 'high') { scores.winter += 2; }
+  if (contrast === 'mid') { scores.spring += 1; scores.autumn += 1; }
+  if (contrast === 'low') { scores.summer += 2; }
+
+  const warmth = answers.warmth;
+  if (warmth === 'warm') { scores.spring += 1; scores.autumn += 2; }
+  if (warmth === 'cool') { scores.summer += 2; scores.winter += 1; }
+  if (warmth === 'muted') { scores.summer += 2; scores.autumn += 1; }
+  if (warmth === 'bright') { scores.winter += 2; scores.spring += 1; }
+
+  const metal = answers.metal;
+  if (metal === 'cool') { scores.summer += 1; scores.winter += 2; }
+  if (metal === 'warm') { scores.spring += 1; scores.autumn += 2; }
+  if (metal === 'neutral') { scores.spring += 1; scores.summer += 1; }
+
+  const sun = answers.sun;
+  if (sun === 'cool') { scores.summer += 1; scores.winter += 1; }
+  if (sun === 'warm') { scores.spring += 2; scores.autumn += 1; }
+  if (sun === 'deep') { scores.winter += 1; scores.autumn += 2; }
+
+  return Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
+}
+
+function showResult() {
+  const season = calcSeason();
+  const data = seasons[season];
+
+  document.getElementById('quiz-screen').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
+  rs.style.animation = 'slideIn 0.6s ease';
+
+  const badge = document.getElementById('result-badge');
+  badge.textContent = data.badge;
+  badge.style.background = data.badgeColor;
+  badge.style.color = data.badgeText;
+
+  const title = document.getElementById('result-title');
+  title.textContent = data.name;
+  title.style.color = data.titleColor;
+
+  document.getElementById('result-subtitle').textContent = data.subtitle;
+  document.getElementById('result-desc').textContent = data.desc;
+
+  // Main palette
+  const mainP = document.getElementById('main-palette');
+  mainP.innerHTML = '';
+  data.palette.forEach((color, i) => {
+    const item = document.createElement('div');
+    item.className = 'palette-item';
+    item.style.background = color;
+    item.title = color;
+    const name = document.createElement('div');
+    name.className = 'color-name';
+    name.textContent = color;
+    item.appendChild(name);
+    item.style.animationDelay = (i * 0.05) + 's';
+    mainP.appendChild(item);
+  });
+
+  // Groups
+  const groups = document.getElementById('palette-groups');
+  groups.innerHTML = '';
+  Object.values(data.groups).forEach(g => {
+    const div = document.createElement('div');
+    div.className = 'palette-group';
+    div.innerHTML = '<div class="group-title">' + g.title + '</div><div class="group-swatches">' +
+      g.colors.map(c => `<div class="group-swatch" style="background:${c}" title="${c}"></div>`).join('') +
+      '</div>';
+    groups.appendChild(div);
+  });
+
+  // Traits
+  const traits = document.getElementById('traits-grid');
+  traits.innerHTML = '';
+  data.traits.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'trait-card';
+    div.innerHTML = `<div class="trait-icon">${t.icon}</div><div class="trait-title">${t.title}</div><div class="trait-value">${t.value}</div>`;
+    traits.appendChild(div);
+  });
+}
+
+function restart() {
+  current = 0;
+  answers = {};
+  selected = null;
+  showScreen('intro');
+}
+
+</script>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p class="site-footer__brand">
+      <strong>4 сезона</strong> · веб-сайт определения цветотипа
+    </p>
+    <p class="site-footer__meta">
+      Дипломный проект Валеевой&nbsp;К.&nbsp;Р., ИСП-44оз-23, 2026
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
